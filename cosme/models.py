@@ -20,6 +20,12 @@ class SkinType(models.Model):
 	def __str__(self):
 		return self.skintype
 
+class Score(models.Model):
+	scores = models.CharField("おすすめ度", max_length=50)
+
+	def __str__(self):
+		return self.scores
+
 
 class Recommenditem(models.Model):
     brand = models.CharField("ブランド名", max_length=100)
@@ -46,3 +52,19 @@ class Recommenditem(models.Model):
 
     def __str__(self):
         return self.product
+
+
+class Review(models.Model):
+	# user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+	brand = models.CharField("ブランド名", max_length=100, blank=True)
+	product = models.CharField("製品名", max_length=100)
+	category = models.ForeignKey(Category, verbose_name='カテゴリー', on_delete=models.CASCADE)
+	price = models.ForeignKey(Price, verbose_name='プライス', on_delete=models.CASCADE, blank=True)
+	score = models.ForeignKey(Score, verbose_name='おすすめ度', on_delete=models.CASCADE)
+	comment = models.TextField("クチコミ")
+	created = models.DateTimeField("作成日", default=timezone.now)
+	image = models.ImageField(upload_to='images', verbose_name='イメージ画像', blank=True)
+
+
+	def __str__(self):
+		return self.product
